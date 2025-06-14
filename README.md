@@ -4,6 +4,7 @@
 > 🔍 **Note:**  
 This document is **not a tutorial** and does **not explain how to implement code** for each function. Instead, it provides a high-level overview and theory to help you understand the core features of the C language. To write your own implementation, refer to the documentation within each individual `.c` file in the `srcs/` directory. There you will find documentation on the specific function.
 
+Although this isn't a tutorial, I’ve written this `README` specifically with **libft** in mind. I've made an effort to stay within the scope of what’s required for the project, so that the explanations remain relevant and concise. If you're looking for deeper understanding or broader C concepts, feel free to explore my other projects where I cover topics in more detail.
 
 ---
 # 📑 Table of Contents
@@ -94,7 +95,7 @@ This document is **not a tutorial** and does **not explain how to implement code
 ## 🔢 Integers
 ```c
 short               s;      // 2 bytes (16 bits): Range -32,768 to 32,767
-unsigned short      s;      // 2 bytes (16 bits): Range 0 to 65,535
+unsigned short      us;      // 2 bytes (16 bits): Range 0 to 65,535
 int                 i;      // 4 bytes (32 bits): Range -2,147,483,648 to 2,147,483,647
 unsigned int        ui;     // 4 bytes (32 bits): Range 0 to 4,294,967,295
 long                l;      // 8 bytes (64 bits): Range -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
@@ -139,6 +140,8 @@ They can be thought of as IDs for open files and streams. Your program reads fro
 > 🔍 **Note:**  
 > Each process tracks its own set of file descriptors independently. This means that if the same file is opened in two different processes, each process can have a different FD referring to that file. The assigned FD is always the smallest available number greater than 2 in the context of that particular process.
 
+> ❗ **THE FOLLOWING CONTENT IS OUT OF SCOPE**
+
 Common File Descriptor Functions
 
 | Function           | Purpose                                                                                               |
@@ -150,7 +153,6 @@ Common File Descriptor Functions
 | `dup()` / `dup2()` | Creates a copy of an FD. `dup2()` can duplicate onto a specified FD number.                           |
 | `pipe()`           | Creates a unidirectional data channel using two FDs: one for reading, one for writing.                |
 | `fcntl()`          | Can change FD flags, file status flags, or perform locking operations on the FD.                      |
-
 
 Flags in open() are used to define the access mode, file creation rules, and additional settings that determine how the file is opened and accessed. This is done to ensure the file behaves exactly as needed for the specific operation, such as reading, writing, appending, or creating new files safely. These flags are defined in `<fcntl.h>`.
 
@@ -184,75 +186,7 @@ Permissions are often combined with bitwise OR (`|`) to set multiple permissions
 | `S_IWOTH`           | Write permission, others         | 0002                 | Others can write     |
 | `S_IXOTH`           | Execute/search permission, others| 0001                 | Others can execute   |
 
-
-Example C program using all these functions
-
-```c
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
-
-int main() {
-    int fd, fd_dup, pipefd[2];
-    char buffer[20];
-
-    // open a file (create if doesn't exist, write only)
-    fd = open("example.txt", O_CREAT | O_WRONLY, 0644);
-    if (fd < 0) {
-        perror("open");
-        return 1;
-    }
-
-    // write to file
-    if (write(fd, "Hello, world!\n", 14) < 0) {
-        perror("write");
-        close(fd);
-        return 1;
-    }
-
-    // duplicate fd to fd_dup
-    fd_dup = dup(fd);
-    if (fd_dup < 0) {
-        perror("dup");
-        close(fd);
-        return 1;
-    }
-
-    // use fcntl to set fd to close-on-exec
-    if (fcntl(fd, F_SETFD, FD_CLOEXEC) < 0) {
-        perror("fcntl");
-    }
-
-    // create a pipe
-    if (pipe(pipefd) < 0) {
-        perror("pipe");
-        close(fd);
-        close(fd_dup);
-        return 1;
-    }
-
-    // write to pipe write end
-    if (write(pipefd[1], "pipe test", 9) < 0) {
-        perror("write pipe");
-    }
-
-    // read from pipe read end
-    if (read(pipefd[0], buffer, sizeof(buffer)) < 0) {
-        perror("read pipe");
-    }
-
-    // close all FDs
-    close(fd);
-    close(fd_dup);
-    close(pipefd[0]);
-    close(pipefd[1]);
-
-    return 0;
-}
-```
-
-
-### 🌲 Linked Lists
+## 🌲 Linked Lists
 
 ```c
 typedef struct s_list
@@ -264,4 +198,4 @@ typedef struct s_list
 
 ---
 
-## 🛠️ Makefile
+# 🛠️ Makefile
