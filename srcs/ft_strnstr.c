@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohrahma <mohrahma@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mohrahma <mohrahma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 12:23:27 by mohrahma          #+#    #+#             */
-/*   Updated: 2025/06/13 00:39:37 by mohrahma         ###   ########.fr       */
+/*   Updated: 2025/06/18 21:16:23 by mohrahma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,13 @@ char	*ft_strnstr(const char *s1, const char *s2, size_t n)
 	size_t	j;
 	size_t	s2_len;
 
-	i = 0;
-	j = 0;
-	s2_len = 0;
 	if (!(*s2))
 		return ((char *)s1);
+	s2_len = 0;
 	while (s2[s2_len] != '\0')
 		s2_len++;
-	while (s1[i++] != '\0' && i < n)
+	i = -1;
+	while (s1[++i] != '\0' && i < n)
 	{
 		j = 0;
 		while (s1[i + j] == s2[j] && (i + j) < n && s2[j] != '\0')

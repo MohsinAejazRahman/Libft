@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohrahma <mohrahma@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mohrahma <mohrahma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:03:32 by mohrahma          #+#    #+#             */
-/*   Updated: 2025/06/13 00:36:25 by mohrahma         ###   ########.fr       */
+/*   Updated: 2025/06/18 21:10:13 by mohrahma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	t_len = d_len + ft_strlen(src);
 	if (d_len == dstsize)
 		return (t_len);
-	while (src[s_len++] != '\0' && (d_len + s_len) < dstsize - 1)
+	while (src[s_len] != '\0' && (d_len + s_len) < dstsize - 1)
+	{
 		dst[d_len + s_len] = src[s_len];
+		s_len++;
+	}
 	dst[d_len + s_len] = '\0';
 	return (t_len);
 }

@@ -17,8 +17,8 @@ static int	start_trim(char const *s1, char const *set)
 	unsigned int	i;
 	int				j;
 
-	i = 0;
-	while (i < ft_strlen(s1))
+	i = -1;
+	while (++i < ft_strlen(s1))
 	{
 		j = -1;
 		while (set[++j] != '\0')
@@ -26,7 +26,6 @@ static int	start_trim(char const *s1, char const *set)
 				break ;
 		if (set[j] == '\0')
 			return (i);
-		i++;
 	}
 	return (i);
 }
@@ -68,5 +67,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 	result = malloc(sizeof(char) * (end - start + 1));
 	if (!result)
 		return (NULL);
-	return (ft_strlcpy(result, s1 + start, end - start + 1), result);
+	ft_strlcpy(result, s1 + start, end - start + 1);
+	return (result);
 }

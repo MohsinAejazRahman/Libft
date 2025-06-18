@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohrahma <mohrahma@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mohrahma <mohrahma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 19:10:16 by mohrahma          #+#    #+#             */
-/*   Updated: 2025/06/13 00:32:48 by mohrahma         ###   ########.fr       */
+/*   Updated: 2025/06/18 21:03:46 by mohrahma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,7 @@ char	*ft_strchr(const char *s, char c)
 	while (s[++i] != '\0')
 		if (s[i] == c)
 			return ((char *)s + i);
+	if (s[i] == c)
+		return ((char *)s + i);
 	return (NULL);
 }

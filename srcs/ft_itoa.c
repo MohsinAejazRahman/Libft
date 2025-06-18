@@ -22,8 +22,11 @@ static int	ft_mem_calc(int n)
 		n = n * -1;
 		sig_fig++;
 	}
-	while (n /= 10 > 9)
+	while (n > 9)
+	{
+		n = n / 10;
 		sig_fig++;
+	}
 	return (sig_fig);
 }
 
@@ -47,7 +50,10 @@ char	*ft_itoa(int n)
 	}
 	result[mem_space] = '\0';
 	while (--mem_space > -1)
-		result[mem_space] = ((n /= 10) % 10) + 48;
+	{
+		result[mem_space] = (n % 10) + 48;
+		n = n / 10;
+	}
 	if (sign == -1)
 		result[0] = '-';
 	return (result);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohrahma <mohrahma@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mohrahma <mohrahma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:45:54 by mohrahma          #+#    #+#             */
-/*   Updated: 2025/06/13 00:12:52 by mohrahma         ###   ########.fr       */
+/*   Updated: 2025/06/18 20:36:37 by mohrahma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_atoi(const char *str)
 			sign = -1;
 		i++;
 	}
-	while (str[i++] >= 48 && str[i] <= 57)
-		result = (result * 10) + (str[i] - 48);
+	while (str[i] >= 48 && str[i] <= 57)
+		result = (result * 10) + (str[i++] - 48);
 	return (result * sign);
 }

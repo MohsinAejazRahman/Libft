@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohrahma <mohrahma@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: mohrahma <mohrahma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:42:01 by mohrahma          #+#    #+#             */
-/*   Updated: 2025/06/13 00:28:11 by mohrahma         ###   ########.fr       */
+/*   Updated: 2025/06/18 21:30:06 by mohrahma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static int	mem_aloc(char **split, int i, int w_len, char const *s)
 	split[i] = malloc(w_len + 1);
 	if (!split[i])
 		return (free_split(split, i - 1), 0);
-	return (ft_strlcpy(split[i], (s - w_len), w_len + 1), 1);
+	ft_strlcpy(split[i], (s - w_len), w_len + 1);
+	return (1);
 }
 
 static int	count_words(const char *s, char c)
