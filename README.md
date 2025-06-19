@@ -13,8 +13,7 @@ Although this isn't a tutorial, I've written this `README` specifically with **l
 
 - [Project Structure](#-project-structure)
 - [Integers](#0️⃣-integers)
-- [Floats](#1️⃣-floats)
-- [Doubles](#2️⃣-doubles)
+- [Floating-Point Numbers](#1️⃣-floating-point-numbers)
 - [Characters](#-characters)
 - [Pointers](#-pointers)
 - [Structs](#-structs)
@@ -100,15 +99,18 @@ Although this isn't a tutorial, I've written this `README` specifically with **l
 ---
 # 0️⃣ Integers
 
-Integers are whole numbers (positive, negative, and zero) stored in memory as binary numbers. The C language provides several integer types to optimize memory usage and performance. Each type has a fixed size, which determines its range of possible values, 
-this is beacue:
+Integers are whole numbers (positive, negative, and zero) stored in memory as binary numbers. The C language provides several integer types to optimize memory usage and performance. Each type has a fixed size, which determines its range of possible values. 
 
-- `Memory Efficiency`: Smaller integers (like short) use less memory.
+This is because:
+
+- `Memory Efficiency`: Smaller integers (like `short`) use less memory.
 - `Performance`: Some processors handle certain sizes faster.
 - `Range Control`: Ensures numbers fit within expected limits.
 - `Hardware Compatibility`: Matches CPU architecture (e.g., 32-bit vs. 64-bit).
 
-Integers can be either signed or unsigned and have different value ranges. Signed integers use the most significant bit (MSB - the leftmost bit) as a sign flag, where 1 indicates a negative number and 0 indicates positive. This representation means signed integers have a range of ±2^(n-1), where n is the number of bits. In contrast, unsigned integers dedicate all bits to representing magnitude, giving them a range of 0 to +2^n. This fundamental difference affects both storage and the range of values each type can hold.
+## Integer Representation
+
+Integers can be either signed or unsigned and have different value ranges. Signed integers use the most significant bit (MSB - the leftmost bit) as a sign flag, where 1 indicates a negative number and 0 indicates positive. This representation means signed integers have a range of ±2^(n-1), where n is the number of bits. In contrast, unsigned integers dedicate all bits to representing magnitude, giving them a range of 0 to +2^n.
 
 | Property          | Signed Integers                     | Unsigned Integers                   |
 |-------------------|-------------------------------------|-------------------------------------|
@@ -116,9 +118,11 @@ Integers can be either signed or unsigned and have different value ranges. Signe
 | Storage Method    | Two's complement                   | Pure binary                         |
 | Use Case          | General arithmetic                 | Bit manipulation, counters          |
 
+## Standard Integer Types
+
 ```c
 short               s;      // 2 bytes (16 bits): Range -32,768 to 32,767
-unsigned short      us;      // 2 bytes (16 bits): Range 0 to 65,535
+unsigned short      us;     // 2 bytes (16 bits): Range 0 to 65,535
 int                 i;      // 4 bytes (32 bits): Range -2,147,483,648 to 2,147,483,647
 unsigned int        ui;     // 4 bytes (32 bits): Range 0 to 4,294,967,295
 long                l;      // 8 bytes (64 bits): Range -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
@@ -126,18 +130,14 @@ unsigned long       ul;     // 8 bytes (64 bits): Range 0 to 18,446,744,073,709,
 unsigned long int   uli;    // 8 bytes (64 bits): Range 0 to 18,446,744,073,709,551,615
 unsigned long long  ull;    // 8 bytes (64 bits): Range 0 to 18,446,744,073,709,551,615
 ```
+## Fixed-Width Integers (C99)
+Data types like `int` and `long` had sizes that varied across compilers and architectures (e.g., 16-bit `int` on older systems vs. 32-bit on modern ones), leading to unpredictable behavior in cross-platform code. To fix this, fixed-width integers (e.g., `int32_t`, `uint64_t`) were introduced in `<stdint.h>`.
 
-Data types like int and long had sizes that varied across compilers and architectures (e.g., 16-bit int on older systems vs. 32-bit on modern ones), leading to unpredictable behavior in cross-platform code. To fix this fixed width integers (e.g., int32_t, uint64_t) were introduced in <stdint.h>. Fixed-width types guarantee exact bit widths (e.g., 8, 16, 32, or 64 bits), ensuring consistent behavior regardless of hardware or OS. They are essential for:
+Fixed-width types guarantee exact bit widths (e.g., 8, 16, 32, or 64 bits), ensuring consistent behavior regardless of hardware or OS. They are essential for:
 
-- **Precision-critical applications** (e.g., cryptography, binary file formats) where exact bit sizes are mandatory.
-- **Embedded systems** where memory layout must match hardware registers or protocols (e.g., network packets).
-- **Avoiding undefined behavior** in bit manipulation or overflow scenarios.
-
-Best practice dictate using them when:
-
-- **Writing cross-platform code** (e.g., libraries used on both 32-bit and 64-bit systems).
-- **Interfacing with hardware or protocols** (e.g., uint8_t for byte-aligned data).
-- **Replacing ambiguous types** like long in modern code to prevent "32-bit vs. 64-bit" bugs.
+- **Precision-critical applications** (e.g., cryptography, binary file formats) where exact bit sizes are mandatory
+- **Embedded systems** where memory layout must match hardware registers or protocols (e.g., network packets)
+- **Avoiding undefined behavior** in bit manipulation or overflow scenarios
 
 ```c
 int8_t          i8;     // 1 byte (8 bits): Range -128 to 127
@@ -152,21 +152,110 @@ uint64_t        u64;    // 8 bytes (64 bits): Range 0 to 18,446,744,073,709,551,
 <br>
 
 ---
-# 1️⃣ Floats
+# 1️⃣ Floating-Point Numbers
 
-<br>
+Floating-point numbers represent real numbers (fractions) in C. They're stored using a special binary format that balances range and precision. C provides two primary floating-point types: `float` and `double`, with `double` offering greater precision at the cost of more memory. This allows for:
 
----
-# 2️⃣ Doubles
+- **Precision Control**: Different applications need different levels of precision  
+- **Memory Efficiency**: `float` uses less memory than `double`  
+- **Performance**: Some processors handle `float` operations faster  
+- **Scientific Computing**: Essential for math, physics, and engineering calculations  
+
+## Floating-Point Representation
+
+Floating-point numbers use IEEE 754 standard representation with three components:
+
+1. **Sign bit**: Determines positive/negative (1 bit)
+2. **Exponent**: Scales the number (8 bits for `float`, 11 bits for `double`)
+3. **Mantissa**: The significant digits (23 bits for `float`, 52 bits for `double`)
+
+This representation allows for:
+- Very large numbers (limited by exponent)
+- Fractional precision (limited by mantissa)
+- Special values like infinity and NaN (Not a Number)
+
+| Property          | float (32-bit)                  | double (64-bit)                  |
+|-------------------|---------------------------------|----------------------------------|
+| Size              | 4 bytes                         | 8 bytes                          |
+| Precision         | ~7 decimal digits               | ~15 decimal digits               |
+| Range             | ±1.2×10⁻³⁸ to ±3.4×10³⁸         | ±2.2×10⁻³⁰⁸ to ±1.8×10³⁰⁸        |
+| Use Case          | Graphics, embedded systems      | Scientific computing, finance    |
+
+```c
+float  f;  // 4 bytes: Range ±1.2×10⁻³⁸ to ±3.4×10³⁸, ~7 digit precision
+double d;  // 8 bytes: Range ±2.2×10⁻³⁰⁸ to ±1.8×10³⁰⁸, ~15 digit precision
+```
 
 <br>
 
 ---
 # 🆎 Characters
+Characters in C are single alphabetic, numeric, or symbolic values stored using the `char` data type. `char` is actually an integer type that stores ASCII values (or extended character codes) in 1 byte (8 bits) of memory. Because of this you might wonder why do character types exist
+
+- **Text Representation**: Fundamental for handling strings and text data
+- **Memory Efficiency**: Smallest addressable unit of memory (1 byte)
+- **Hardware Compatibility**: Matches processor's byte-oriented operations
+- **Flexibility**: Can be used as both characters and small integers
+
+## Character Representation
+
+Characters are stored as their ASCII (or Unicode) numeric values:
+
+| Property          | Description                          |
+|-------------------|--------------------------------------|
+| Storage Size      | 1 byte (8 bits)                      |
+| Default           | Implementation-defined (usually signed) |
+
 ```c
 char            c;  // 1 byte (8 bites): Range -128 to 127 or 0 to 255
 unsigned char   c;  // 1 byte (8 bites): Range 0 to 255
 ```
+
+## ASCII Table (0-127)
+
+**Control Characters (0-31, 127):**
+  - Non-printable characters for device control
+  - Example: `0x07` (BEL) makes an alert sound
+
+**Printable Characters (32-126):**
+  - Includes letters, numbers, punctuation
+  - `0x20` is space character
+  - `0x30-0x39`: Digits 0-9
+  - `0x41-0x5A`: Uppercase A-Z
+  - `0x61-0x7A`: Lowercase a-z
+
+**Extended ASCII (128-255):**
+  - Not part of standard ASCII
+  - Varies by character encoding (ISO-8859-1, Windows-1252, etc.)
+
+| Dec | Hex | Char       | Dec | Hex | Char       | Dec | Hex | Char       | Dec | Hex | Char       | Dec | Hex | Char       |
+|-----|-----|------------|-----|-----|------------|-----|-----|------------|-----|-----|------------|-----|-----|------------|
+| 0   |0x00 |`NUL` (null)| 26 |0x1A |`SUB`      | 52 |0x34 |`4`        | 78 |0x4E |`N`        |104 |0x68 |`h`        |
+| 1   |0x01 |`SOH`      | 27 |0x1B |`ESC`      | 53 |0x35 |`5`        | 79 |0x4F |`O`        |105 |0x69 |`i`        |
+| 2   |0x02 |`STX`      | 28 |0x1C |`FS`       | 54 |0x36 |`6`        | 80 |0x50 |`P`        |106 |0x6A |`j`        |
+| 3   |0x03 |`ETX`      | 29 |0x1D |`GS`       | 55 |0x37 |`7`        | 81 |0x51 |`Q`        |107 |0x6B |`k`        |
+| 4   |0x04 |`EOT`      | 30 |0x1E |`RS`       | 56 |0x38 |`8`        | 82 |0x52 |`R`        |108 |0x6C |`l`        |
+| 5   |0x05 |`ENQ`      | 31 |0x1F |`US`       | 57 |0x39 |`9`        | 83 |0x53 |`S`        |109 |0x6D |`m`        |
+| 6   |0x06 |`ACK`      | 32 |0x20 |` ` (space)| 58 |0x3A |`:`        | 84 |0x54 |`T`        |110 |0x6E |`n`        |
+| 7   |0x07 |`BEL` (bell)|33 |0x21 |`!`       | 59 |0x3B |`;`        | 85 |0x55 |`U`        |111 |0x6F |`o`        |
+| 8   |0x08 |`BS` (backspace)|34|0x22|`"`      | 60 |0x3C |`<`        | 86 |0x56 |`V`        |112 |0x70 |`p`        |
+| 9   |0x09 |`TAB`      | 35 |0x23 |`#`       | 61 |0x3D |`=`        | 87 |0x57 |`W`        |113 |0x71 |`q`        |
+|10   |0x0A |`LF` (newline)|36|0x24|`$`      | 62 |0x3E |`>`        | 88 |0x58 |`X`        |114 |0x72 |`r`        |
+|11   |0x0B |`VT` (vertical tab)|37|0x25|`%`   | 63 |0x3F |`?`        | 89 |0x59 |`Y`        |115 |0x73 |`s`        |
+|12   |0x0C |`FF` (form feed)|38|0x26|`&`     | 64 |0x40 |`@`        | 90 |0x5A |`Z`        |116 |0x74 |`t`        |
+|13   |0x0D |`CR` (carriage ret)|39|0x27|`'`   | 65 |0x41 |`A`        | 91 |0x5B |`[`        |117 |0x75 |`u`        |
+|14   |0x0E |`SO`       | 40 |0x28 |`(`       | 66 |0x42 |`B`        | 92 |0x5C |`\`        |118 |0x76 |`v`        |
+|15   |0x0F |`SI`       | 41 |0x29 |`)`       | 67 |0x43 |`C`        | 93 |0x5D |`]`        |119 |0x77 |`w`        |
+|16   |0x10 |`DLE`      | 42 |0x2A |`*`       | 68 |0x44 |`D`        | 94 |0x5E |`^`        |120 |0x78 |`x`        |
+|17   |0x11 |`DC1`      | 43 |0x2B |`+`       | 69 |0x45 |`E`        | 95 |0x5F |`_`        |121 |0x79 |`y`        |
+|18   |0x12 |`DC2`      | 44 |0x2C |`,`       | 70 |0x46 |`F`        | 96 |0x60 |`` ` ``    |122 |0x7A |`z`        |
+|19   |0x13 |`DC3`      | 45 |0x2D |`-`       | 71 |0x47 |`G`        | 97 |0x61 |`a`        |123 |0x7B |`{`        |
+|20   |0x14 |`DC4`      | 46 |0x2E |`.`       | 72 |0x48 |`H`        | 98 |0x62 |`b`        |124 |0x7C |`|`        |
+|21   |0x15 |`NAK`      | 47 |0x2F |`/`       | 73 |0x49 |`I`        | 99 |0x63 |`c`        |125 |0x7D |`}`        |
+|22   |0x16 |`SYN`      | 48 |0x30 |`0`       | 74 |0x4A |`J`        |100 |0x64 |`d`        |126 |0x7E |`~`        |
+|23   |0x17 |`ETB`      | 49 |0x31 |`1`       | 75 |0x4B |`K`        |101 |0x65 |`e`        |127 |0x7F |`DEL`      |
+|24   |0x18 |`CAN`      | 50 |0x32 |`2`       | 76 |0x4C |`L`        |102 |0x66 |`f`        |
+|25   |0x19 |`EM`       | 51 |0x33 |`3`       | 77 |0x4D |`M`        |103 |0x67 |`g`        |
 
 <br>
 
