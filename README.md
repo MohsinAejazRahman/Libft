@@ -1,5 +1,5 @@
 # 📚 libft - Custom C Library
-`libft` is the first project in the 42 core curriculum. It requires you to reimplement standard C library functions from `<ctype.h>`, `<stdlib.h>`, `<string.h>` and `<unistd.h>` along with some custom funcrtions. Here you must organize them into a reusable static library. This `README` will help you **understand the theory and mechanisms of C** to help you write these functions which have been grouped by category.
+`libft` is the first project in the 42 core curriculum. It requires you to reimplement standard C library functions from `<ctype.h>`, `<stdlib.h>`, `<string.h>` and `<unistd.h>` along with some custom funcrtions. Here you must organize these functions into a reusable static library. This `README` will help you **understand the theory and mechanisms of C** to help you write these functions which have been grouped by category.
 
 > 🔍 **Note:**  
 This document is **not a tutorial** and does **not explain how to implement code** for each function. Instead, it provides a overview and theory to help you understand the core features of the C language. To write your own implementation, refer to the documentation within each individual `.c` file in the `srcs/` directory. There you will find documentation on the specific function.
@@ -261,11 +261,177 @@ unsigned char   c;  // 1 byte (8 bites): Range 0 to 255
 
 ---
 # 🧠 Pointers
+Pointers are fundamental to C programming, acting as variables that store memory addresses rather than direct values. 
+They enable efficient memory management, data structures, and low-level system access. Pointers provide indirect access 
+to data stored elsewhere in memory.
+
+## Basics
+
+A pointer declaration consists of a data type followed by an asterisk. The type indicates what kind of data the pointer 
+references, while the asterisk denotes it as a pointer variable:
+
 ```c
-void    *v;
-int     *i;
-char    *s;
+int   *ptr;   // Pointer to integer (integer array)
+char  *cptr;  // Pointer to character (string)
+void  *fptr;  // Pointer to undefined data type
 ```
+
+When working with pointers, two fundamental operators are essential. The address-of operator (&) retrieves the memory location 
+of a variable, while the dereference operator (*) accesses the value stored at a pointer's address. The relationship between 
+pointers, addresses, and values can be visualized through a simple table:
+
+| Concept      | Symbol | Example       | Description                          |
+|--------------|--------|---------------|--------------------------------------|
+| Address-of   | &      | `&variable`   | Gets memory location of a variable   |
+| Dereference  | *      | `*pointer`    | Accesses value at pointer's address  |
+| Pointer Decl | *      | `int *ptr`    | Creates a pointer variable           |
+
+> 🔍 **Note:**  
+In C, function parameters follow strict rules:  
+<br> **Primitive types and structs** create independent copies in the function's stack frame. Any modifications affect only the 
+local copy and are discarded when the function returns.  
+<br> **Pointer parameters** receive a copy of the memory address. While the pointer copy itself follows these rules, dereferencing 
+it accesses the original memory location. This allows for modifications to the referenced data, but requires explicit management.  
+<br> This means that:<br> 1. Memory modifications through dereferenced pointers are perminent beyond function <br>2. Losing the last 
+reference to allocated memory creates unrecoverable leaks (security hazzard) <br>3. There is no automatic mechanism to revert 
+pointer-based modifications <br>4. All pointer arithmetic must maintain valid address boundaries  
+
+## Pointer Types and Void Pointers
+
+C supports pointers to any data type, including the special void pointer (void *) which can point to any data type but requires 
+explicit typecasting for dereferencing:
+
+```c
+int   num = 10;
+void  *vptr = &num;           // Valid
+printf("%d", *(int *)vptr);   // Requires typecast
+```
+
+The behavior of different pointer types is important to understand:
+
+
+| Pointer Type | Size (32/64 Bit Architecture) | Arithmetic Behavior        | Dereference Behavior |
+|--------------|------|----------------------------|-----------------------|
+| int *        | 4/8 bytes  | Moves by sizeof(int) bytes | Reads 4 bytes         |
+| char *       | 4/8 bytes | Moves by 1 byte            | Reads 1 byte          |
+| void *       | 4/8 bytes | Cannot perform arithmetic  | Cannot dereference    |
+
+
+## Pointer Arithmetic and Arrays
+
+Pointers and arrays are closely related in C. Array names act as constant pointers to the first element, and pointer arithmetic allows efficient array traversal:
+
+
+```c
+int arr[3] = {10, 20, 30};
+int *ptr = arr; // Equivalent to &arr[0]
+ptr++;          // Now points to arr[1]
+```
+> 🔍 **Note:**  
+Pointer arithmetic modifies the base address stored in the pointer variable such that each increment operation (++) advances the 
+pointer by sizeof(type) bytes. After modification, the pointer no longer references the original array head and there is no automatic 
+reset mechanism for pointer positions 
+<br><br>
+Best Practice:
+Maintain the original array pointer in a separate variable if continued access to the head element is required. Pointer arithmetic 
+should only be used when the loss of the original reference is explicitly intended.
+
+The relationship between arrays and pointers can be summarized as:
+
+| Expression | Equivalent To | Value Produced               |
+|------------|---------------|-------------------------------|
+| arr[i]     | *(arr + i)    | Value at index i              |
+| &arr[i]    | arr + i       | Address of element at index i |
+| *arr       | arr[0]        | First element's value         |
+
+
+## Pointer Typecasting
+
+
+Pointer typecasting allows treating memory as different data types, which is particularly useful when working with void pointers or memory allocation:
+
+
+```c
+float f = 3.14;
+int *iptr = (int *)&f; // Treat float bits as int
+```
+
+
+Common pointer typecasting scenarios include:
+
+
+| Use Case                  | Example                          | Notes                              |
+|---------------------------|----------------------------------|------------------------------------|
+| Void pointer conversion   | `(int *)vptr`                   | Required before dereferencing      |
+| Memory reinterpretation   | `(char *)&int_var`              | Examines individual bytes          |
+| Struct pointer conversion | `(Child *)parent_ptr`           | Used in inheritance-like patterns  |
+
+
+## Pointers to Pointers
+
+
+Multiple levels of indirection are possible in C, enabling pointers to pointers. This is particularly useful for dynamic multidimensional arrays and modifying pointer arguments in functions:
+
+
+```c
+int value = 100;
+int *ptr = &value;
+int **pptr = &ptr; // Pointer to pointer
+```
+
+
+The dereferencing behavior changes with each level:
+
+
+| Declaration | Type          | Dereference Once | Dereference Twice |
+|-------------|---------------|-------------------|--------------------|
+| int *       | Pointer       | Value             | Invalid            |
+| int **      | Pointer-to-pointer | Pointer        | Value              |
+
+
+## Const and Pointers
+
+
+The const qualifier can be applied to pointers in different ways, each providing specific protection:
+
+
+```c
+const int *ptr1;        // Pointer to constant data
+int *const ptr2;        // Constant pointer to data
+const int *const ptr3;  // Constant pointer to constant data
+```
+
+
+The variations in const placement create different protections:
+
+
+| Declaration Form          | Pointer Changeable | Data Changeable |
+|---------------------------|--------------------|------------------|
+| const int *ptr            | Yes                | No               |
+| int *const ptr            | No                 | Yes              |
+| const int *const ptr      | No                 | No               |
+
+
+## Function Pointers
+
+
+Pointers can also reference functions, enabling dynamic behavior and callbacks:
+
+```c
+int add(int a, int b) { return a + b; }
+int (*func_ptr)(int, int) = add;
+int result = func_ptr(3, 4); // Calls add(3, 4)
+```
+
+
+Function pointer syntax varies by signature:
+
+
+| Function Type          | Pointer Declaration                  |
+|------------------------|---------------------------------------|
+| int func(void)         | int (*ptr)(void)                     |
+| float func(int, char)  | float (*ptr)(int, char)              |
+| void func(double)      | void (*ptr)(double)                  |
 
 
 <br>
