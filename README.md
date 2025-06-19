@@ -12,10 +12,9 @@ Although this isn't a tutorial, I've written this `README` specifically with **l
 # 📑 Table of Contents
 
 - [Project Structure](#-project-structure)
-- [Booleans](#-booleans)
-- [Integers](#-integers)
-- [Floats](#-floats)
-- [Doubles](#-doubles)
+- [Integers](#0️⃣-integers)
+- [Floats](#1️⃣-floats)
+- [Doubles](#2️⃣-doubles)
 - [Characters](#-characters)
 - [Pointers](#-pointers)
 - [Structs](#-structs)
@@ -99,12 +98,24 @@ Although this isn't a tutorial, I've written this `README` specifically with **l
 <br>
 
 ---
-# 🔟 Booleans
-
-<br>
-
----
 # 0️⃣ Integers
+
+Integers are whole numbers (positive, negative, and zero) stored in memory as binary numbers. The C language provides several integer types to optimize memory usage and performance. Each type has a fixed size, which determines its range of possible values, 
+this is beacue:
+
+- `Memory Efficiency`: Smaller integers (like short) use less memory.
+- `Performance`: Some processors handle certain sizes faster.
+- `Range Control`: Ensures numbers fit within expected limits.
+- `Hardware Compatibility`: Matches CPU architecture (e.g., 32-bit vs. 64-bit).
+
+Integers can be either signed or unsigned and have different value ranges. Signed integers use the most significant bit (MSB - the leftmost bit) as a sign flag, where 1 indicates a negative number and 0 indicates positive. This representation means signed integers have a range of ±2^(n-1), where n is the number of bits. In contrast, unsigned integers dedicate all bits to representing magnitude, giving them a range of 0 to +2^n. This fundamental difference affects both storage and the range of values each type can hold.
+
+| Property          | Signed Integers                     | Unsigned Integers                   |
+|-------------------|-------------------------------------|-------------------------------------|
+| Representation    | Negative and positive numbers       | Only non-negative numbers (≥ 0)     |
+| Storage Method    | Two's complement                   | Pure binary                         |
+| Use Case          | General arithmetic                 | Bit manipulation, counters          |
+
 ```c
 short               s;      // 2 bytes (16 bits): Range -32,768 to 32,767
 unsigned short      us;      // 2 bytes (16 bits): Range 0 to 65,535
@@ -116,6 +127,28 @@ unsigned long int   uli;    // 8 bytes (64 bits): Range 0 to 18,446,744,073,709,
 unsigned long long  ull;    // 8 bytes (64 bits): Range 0 to 18,446,744,073,709,551,615
 ```
 
+Data types like int and long had sizes that varied across compilers and architectures (e.g., 16-bit int on older systems vs. 32-bit on modern ones), leading to unpredictable behavior in cross-platform code. To fix this fixed width integers (e.g., int32_t, uint64_t) were introduced in <stdint.h>. Fixed-width types guarantee exact bit widths (e.g., 8, 16, 32, or 64 bits), ensuring consistent behavior regardless of hardware or OS. They are essential for:
+
+- **Precision-critical applications** (e.g., cryptography, binary file formats) where exact bit sizes are mandatory.
+- **Embedded systems** where memory layout must match hardware registers or protocols (e.g., network packets).
+- **Avoiding undefined behavior** in bit manipulation or overflow scenarios.
+
+Best practice dictate using them when:
+
+- **Writing cross-platform code** (e.g., libraries used on both 32-bit and 64-bit systems).
+- **Interfacing with hardware or protocols** (e.g., uint8_t for byte-aligned data).
+- **Replacing ambiguous types** like long in modern code to prevent "32-bit vs. 64-bit" bugs.
+
+```c
+int8_t          i8;     // 1 byte (8 bits): Range -128 to 127
+uint8_t         u8;     // 1 byte (8 bits): Range 0 to 255
+int16_t         i16;    // 2 bytes (16 bits): Range -32,768 to 32,767
+uint16_t        u16;    // 2 bytes (16 bits): Range 0 to 65,535
+int32_t         i32;    // 4 bytes (32 bits): Range -2,147,483,648 to 2,147,483,647
+uint32_t        u32;    // 4 bytes (32 bits): Range 0 to 4,294,967,295
+int64_t         i64;    // 8 bytes (64 bits): Range -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
+uint64_t        u64;    // 8 bytes (64 bits): Range 0 to 18,446,744,073,709,551,615
+```
 <br>
 
 ---
@@ -184,8 +217,6 @@ They can be thought of as IDs for open files and streams. Your program reads fro
 
 > 🔍 **Note:**  
 > Each process tracks its own set of file descriptors independently. This means that if the same file is opened in two different processes, each process can have a different FD referring to that file. The assigned FD is always the smallest available number greater than 2 in the context of that particular process.
-
-> ❗ **THE FOLLOWING CONTENT IS OUT OF SCOPE**
 
 Common File Descriptor Functions
 
