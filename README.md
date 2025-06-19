@@ -12,12 +12,15 @@ Although this isn't a tutorial, I've written this `README` specifically with **l
 # 📑 Table of Contents
 
 - [Project Structure](#-project-structure)
-- [Library Functions](#-library-functions)
-  - [Integers](#-integers)
-  - [Characters and Strings](#-characters-and-strings)
-  - [Pointers and Memory](#-pointers-and-memory)
-  - [File Descriptors](#-file-descriptors)
-  - [Linked Lists](#-linked-lists)
+- [Booleans](#-booleans)
+- [Integers](#-integers)
+- [Floats](#-floats)
+- [Doubles](#-doubles)
+- [Characters](#-characters)
+- [Pointers](#-pointers)
+- [Structs](#-structs)
+- [File Descriptors](#-file-descriptors)
+- [Header Files](#-header-files)
 - [Makefile](#-makefile)
   - [Structure](#-structure)
   - [Components](#-components)
@@ -93,13 +96,15 @@ Although this isn't a tutorial, I've written this `README` specifically with **l
         │
         └── libft.h                  (custom)        - Header file with prototypes and macros
 
+<br>
+
+---
+# 🔟 Booleans
 
 <br>
 
 ---
-# 🧰 Library Functions
-
-## 🔢 Integers
+# 0️⃣ Integers
 ```c
 short               s;      // 2 bytes (16 bits): Range -32,768 to 32,767
 unsigned short      us;      // 2 bytes (16 bits): Range 0 to 65,535
@@ -111,20 +116,53 @@ unsigned long int   uli;    // 8 bytes (64 bits): Range 0 to 18,446,744,073,709,
 unsigned long long  ull;    // 8 bytes (64 bits): Range 0 to 18,446,744,073,709,551,615
 ```
 
-## 🆎 Characters
+<br>
+
+---
+# 1️⃣ Floats
+
+<br>
+
+---
+# 2️⃣ Doubles
+
+<br>
+
+---
+# 🆎 Characters
 ```c
 char            c;  // 1 byte (8 bites): Range -128 to 127 or 0 to 255
 unsigned char   c;  // 1 byte (8 bites): Range 0 to 255
 ```
 
-## 🧠 Pointers and Memory
+<br>
+
+---
+# 🧠 Pointers
 ```c
 void    *v;
 int     *i;
 char    *s;
 ```
 
-## 📤 File Descriptors
+
+<br>
+
+---
+# ☰ Structs
+
+```c
+typedef struct s_list
+{
+    void			*content;
+    struct s_list	*next;
+}			t_list;
+```
+
+<br>
+
+---
+# 📤 File Descriptors
 
 A **file descriptor (FD)** is a non-negative integer used by the operating system to identify an open file, socket, pipe, or other I/O (input/output) resource. File descriptors act as an abstract indicator (or handle) through which a program can perform read/write operations.
 
@@ -193,15 +231,11 @@ Permissions are often combined with bitwise OR (`|`) to set multiple permissions
 | `S_IWOTH`           | Write permission, others         | 0002                 | Others can write     |
 | `S_IXOTH`           | Execute/search permission, others| 0001                 | Others can execute   |
 
-## 🌲 Linked Lists
+<br>
 
-```c
-typedef struct s_list
-{
-    void			*content;
-    struct s_list	*next;
-}			t_list;
-```
+---
+# 📚 Header Files
+
 <br>
 
 ---
