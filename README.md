@@ -20,8 +20,6 @@ Although this isn't a tutorial, I've written this `README` specifically with **l
 - [File Descriptors](#-file-descriptors)
 - [Header Files](#-header-files)
 - [Makefile](#️-makefile)
-  - [Structure](#-structure)
-  - [Components](#-components)
 - [Additional Resources](#-additional-resources)
 
 <br> 
@@ -108,7 +106,7 @@ This is because:
 - `Range Control`: Ensures numbers fit within expected limits.
 - `Hardware Compatibility`: Matches CPU architecture (e.g., 32-bit vs. 64-bit).
 
-## Integer Representation
+## 🔢 Integer Representation
 
 Integers can be either signed or unsigned and have different value ranges. Signed integers use the most significant bit (MSB - the leftmost bit) as a sign flag, where 1 indicates a negative number and 0 indicates positive. This representation means signed integers have a range of ±2^(n-1), where n is the number of bits. In contrast, unsigned integers dedicate all bits to representing magnitude, giving them a range of 0 to +2^n.
 
@@ -118,7 +116,7 @@ Integers can be either signed or unsigned and have different value ranges. Signe
 | Storage Method    | Two's complement                   | Pure binary                         |
 | Use Case          | General arithmetic                 | Bit manipulation, counters          |
 
-## Standard Integer Types
+## 📏 Standard Integer Types
 
 ```c
 short               s;      // 2 bytes (16 bits): Range -32,768 to 32,767
@@ -130,7 +128,7 @@ unsigned long       ul;     // 8 bytes (64 bits): Range 0 to 18,446,744,073,709,
 unsigned long int   uli;    // 8 bytes (64 bits): Range 0 to 18,446,744,073,709,551,615
 unsigned long long  ull;    // 8 bytes (64 bits): Range 0 to 18,446,744,073,709,551,615
 ```
-## Fixed-Width Integers (C99)
+## 📐 Fixed-Width Integers (C99)
 Data types like `int` and `long` had sizes that varied across compilers and architectures (e.g., 16-bit `int` on older systems vs. 32-bit on modern ones), leading to unpredictable behavior in cross-platform code. To fix this, fixed-width integers (e.g., `int32_t`, `uint64_t`) were introduced in `<stdint.h>`.
 
 Fixed-width types guarantee exact bit widths (e.g., 8, 16, 32, or 64 bits), ensuring consistent behavior regardless of hardware or OS. They are essential for:
@@ -161,7 +159,7 @@ Floating-point numbers represent real numbers (fractions) in C. They're stored u
 - **Performance**: Some processors handle `float` operations faster  
 - **Scientific Computing**: Essential for math, physics, and engineering calculations  
 
-## Floating-Point Representation
+## 🔣 Floating-Point Representation
 
 Floating-point numbers use IEEE 754 standard representation with three components:
 
@@ -197,7 +195,7 @@ Characters in C are single alphabetic, numeric, or symbolic values stored using 
 - **Hardware Compatibility**: Matches processor's byte-oriented operations
 - **Flexibility**: Can be used as both characters and small integers
 
-## Character Representation
+## 🔤 Character Representation
 
 Characters are stored as their ASCII (or Unicode) numeric values:
 
@@ -211,7 +209,7 @@ char            c;  // 1 byte (8 bites): Range -128 to 127 or 0 to 255
 unsigned char   c;  // 1 byte (8 bites): Range 0 to 255
 ```
 
-## ASCII Table (0-127)
+## 🅰️ ASCII Table (0-127)
 
 **Control Characters (0-31, 127):**
   - Non-printable characters for device control
@@ -265,7 +263,7 @@ Pointers are fundamental to C programming, acting as variables that store memory
 They enable efficient memory management, data structures, and low-level system access. Pointers provide indirect access 
 to data stored elsewhere in memory.
 
-## Basics
+## ⚙️ Basics
 
 A pointer declaration consists of a data type followed by an asterisk. The type indicates what kind of data the pointer 
 references, while the asterisk denotes it as a pointer variable:
@@ -296,7 +294,7 @@ it accesses the original memory location. This allows for modifications to the r
 reference to allocated memory creates unrecoverable leaks (security hazzard) <br>3. There is no automatic mechanism to revert 
 pointer-based modifications <br>4. All pointer arithmetic must maintain valid address boundaries  
 
-## Pointer Types and Void Pointers
+## 🧩 Pointer Types and Void Pointers
 
 C supports pointers to any data type, including the special void pointer (void *) which can point to any data type but requires 
 explicit typecasting for dereferencing:
@@ -317,7 +315,7 @@ The behavior of different pointer types is important to understand:
 | void *       | 4/8 bytes | Cannot perform arithmetic  | Cannot dereference    |
 
 
-## Pointer Arithmetic and Arrays
+## 🧮 Pointer Arithmetic and Arrays
 
 Pointers and arrays are closely related in C. Array names act as constant pointers to the first element, and pointer arithmetic allows efficient array traversal:
 
@@ -345,7 +343,7 @@ The relationship between arrays and pointers can be summarized as:
 | *arr       | arr[0]        | First element's value         |
 
 
-## Pointer Typecasting
+## 🧑‍🎓 Pointer Typecasting
 
 
 Pointer typecasting allows treating memory as different data types, which is particularly useful when working with void pointers or memory allocation:
@@ -367,7 +365,7 @@ Common pointer typecasting scenarios include:
 | Struct pointer conversion | `(Child *)parent_ptr`           | Used in inheritance-like patterns  |
 
 
-## Pointers to Pointers
+## 🔗 Pointers to Pointers
 
 
 Multiple levels of indirection are possible in C, enabling pointers to pointers. This is particularly useful for dynamic multidimensional arrays and modifying pointer arguments in functions:
@@ -389,7 +387,7 @@ The dereferencing behavior changes with each level:
 | int **      | Pointer-to-pointer | Pointer        | Value              |
 
 
-## Const and Pointers
+## 🛡️ Const and Pointers
 
 
 The const qualifier can be applied to pointers in different ways, each providing specific protection:
@@ -412,7 +410,7 @@ The variations in const placement create different protections:
 | const int *const ptr      | No                 | No               |
 
 
-## Function Pointers
+## 🎯 Function Pointers
 
 
 Pointers can also reference functions, enabling dynamic behavior and callbacks:
@@ -437,7 +435,7 @@ Function pointer syntax varies by signature:
 <br>
 
 ---
-# ☰ Structs
+# 🧱 Structs
 Structs in C are composite data types that allow you to combine variables of different types under a single name. They are fundamental 
 for creating complex data structures and organizing related data. A struct declaration defines a new type that groups multiple 
 variables (called members):
@@ -479,7 +477,7 @@ int main ()
 }  
 ```
 
-## Memory Layout
+## 🧮 Memory Layout
 The `student` struct members are stored sequentially in memory with proper alignment:
 
 | Member | Type      | Offset (bytes) | Size (bytes) |
@@ -519,7 +517,7 @@ and architectures unless packed structures are used.
 
 ## 🧩 Data Structures
 
-### Linked Lists
+### 🔗 Linked Lists
 
 The linked list is a fundamental linear data structure where elements are stored in nodes containing both data and a pointer 
 to the next node. This structure provides dynamic memory allocation and efficient insertions/deletions compared to arrays. 
@@ -543,7 +541,7 @@ typedef struct s_list {
 } t_list;
 ```
 
-### Stacks (LIFO)
+### 🗃️ Stacks (LIFO)
 Stacks follow the Last-In-First-Out principle, where elements are added and removed from the same end (called the "top"). 
 This structure is ubiquitous in computer science for function call management, expression evaluation, and undo mechanisms. 
 
@@ -568,7 +566,7 @@ typedef struct s_stack {
 } LinkedStack;
 ```
 
-### Queues (FIFO)
+### 🚦 Queues (FIFO)
 Queues implement First-In-First-Out behavior, making them ideal for task scheduling, buffering, and breadth first search algorithms. 
 
 **Key queue operations** maintain FIFO ordering:
@@ -596,7 +594,7 @@ typedef struct {
 } QueueHead;
 ```
 
-### Hash Maps
+### 🗃️ Hash Maps
 Hash maps provide key-value storage with average O(1) access time through hash function computation. 
 
 **Proper hash map implementation requires consideration of:**
@@ -619,7 +617,7 @@ typedef struct {
 } HashMap;
 ```
 
-Binary Trees
+### 🌳 Binary Trees
 Binary trees are hierarchical structures where each node has at most two children (left and right). 
 
 **Tree variants specialize for different needs:**
@@ -665,7 +663,7 @@ They can be thought of as IDs for open files and streams. Your program reads fro
 > 🔍 **Note:**  
 > Each process tracks its own set of file descriptors independently. This means that if the same file is opened in two different processes, each process can have a different FD referring to that file. The assigned FD is always the smallest available number greater than 2 in the context of that particular process.
 
-Common File Descriptor Functions
+## ⚙️ Common File Descriptor Functions
 
 | Function           | Purpose                                                                                               |
 | ------------------ | ------------------------------------------------------------------------------------------------------| 
@@ -676,6 +674,8 @@ Common File Descriptor Functions
 | `dup()` / `dup2()` | Creates a copy of an FD. `dup2()` can duplicate onto a specified FD number.                           |
 | `pipe()`           | Creates a unidirectional data channel using two FDs: one for reading, one for writing.                |
 | `fcntl()`          | Can change FD flags, file status flags, or perform locking operations on the FD.                      |
+
+## 🏷️ Flags for open()
 
 Flags in open() are used to define the access mode, file creation rules, and additional settings that determine how the file is opened and accessed. This is done to ensure the file behaves exactly as needed for the specific operation, such as reading, writing, appending, or creating new files safely. These flags are defined in `<fcntl.h>`.
 
@@ -692,6 +692,8 @@ Flags can be combined with bitwise OR (`|`) to specify multiple behaviors. When 
 | `O_APPEND`        | Append data to the end of the file on each write                 | Writes will always add to file end  |
 | `O_NONBLOCK`      | Open file in non-blocking mode                                   | For non-blocking I/O (e.g., pipes)  |
 | `O_SYNC`          | Writes are synchronized (blocking until data is written to disk) | Ensure data integrity               |
+
+## 🔐 File Permission Types
 
 File permission types are used to define and control the access rights of different users (owner, group, others) to files and directories. This is done to ensure proper security and prevent unauthorized reading, writing, or execution of files in a multi-user environment. These constants are defined in `<sys/stat.h>`.
 
