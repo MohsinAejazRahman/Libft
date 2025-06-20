@@ -438,14 +438,206 @@ Function pointer syntax varies by signature:
 
 ---
 # ☰ Structs
+Structs in C are composite data types that allow you to combine variables of different types under a single name. They are fundamental 
+for creating complex data structures and organizing related data. A struct declaration defines a new type that groups multiple 
+variables (called members):
 
 ```c
-typedef struct s_list
-{
-    void			*content;
-    struct s_list	*next;
-}			t_list;
+struct student {
+    char  name[50];
+    int   age;
+    float gpa;
+};
 ```
+
+To use a struct, you declare variables of its type:
+
+```c
+int main()
+{
+    struct student s1;  // Declaration
+
+    s1.age = 20;        // Member access
+    return (0);
+}
+```
+
+Typically typedef is used to avoid writing struct repeatedly:
+
+```c
+typedef struct student {
+    char name[50];
+    int age;
+    float gpa;
+} Student;
+
+int main () 
+{
+    Student s1;  // Cleaner declaration
+
+    return (0);
+}  
+```
+
+## Memory Layout
+The `student` struct members are stored sequentially in memory with proper alignment:
+
+| Member | Type      | Offset (bytes) | Size (bytes) |
+|--------|-----------|----------------|--------------|
+| name   | char[50]  | 0              | 50           |
+| age    | int       | 52             | 4            |
+| gpa    | float     | 56             | 4            |
+
+**Key Observations:**
+1. **Padding**: The compiler inserts 2 padding bytes after `name` to align `age` on a 4-byte boundary (common for 32-bit systems)
+2. **Total Size**: `sizeof(struct student)` would typically be 60 bytes (50 + 2 padding + 4 + 4)
+3. **Alignment**: Members are aligned according to their natural boundaries (chars on 1-byte, ints/floats on 4-byte)
+
+<br>
+
+> 🔍 **Architecture Note:**  
+> On 64-bit systems, you might see different padding behavior due to:
+> - Larger pointer sizes (8 bytes)
+> - Stricter alignment requirements
+> - Structure padding optimization (`#pragma pack` can modify this)
+
+**Practical Implications:**
+```c
+struct student s;
+printf("name @ %p\n", &s.name);  // Lowest address
+printf("age @ %p\n", &s.age);    // Typically 52 bytes higher
+printf("gpa @ %p\n", &s.gpa);    // Typically 56 bytes higher
+```
+
+**Memory Visualization:**<br>
+┌───────────────────┬──┬───────┬───────┐<br>
+ │               name (50 bytes)                              │    P   │            age          │            gpa          │<br>
+└───────────────────┴──┴───────┴───────┘
+
+This layout ensures optimal memory access at the cost of some wasted space in padding. The exact offsets may vary between compilers 
+and architectures unless packed structures are used.
+
+## 🧩 Data Structures
+
+### Linked Lists
+
+The linked list is a fundamental linear data structure where elements are stored in nodes containing both data and a pointer 
+to the next node. This structure provides dynamic memory allocation and efficient insertions/deletions compared to arrays. 
+In this linked list, the head refers to the first node, while the tail refers to the last (nth) node in the sequence.
+
+**Key Operations:**
+- `Insertion`: O(1) at head, O(n) at tail
+- `Deletion`: O(1) at head, O(n) elsewhere
+- `Traversal`: O(n)
+
+Linked lists excel in scenarios requiring frequent insertions and deletions, as these operations can be performed in constant 
+time O(1) at the head. However, they have O(n) access time for arbitrary positions and require additional memory for pointers.
+
+The most basic form is the singly-linked list shown in the template:
+
+```c
+typedef struct s_list {
+    void *content;          // Pointer to data
+    size_t content_size;    // Size of data
+    struct s_list *next;    // Pointer to next node
+} t_list;
+```
+
+### Stacks (LIFO)
+Stacks follow the Last-In-First-Out principle, where elements are added and removed from the same end (called the "top"). 
+This structure is ubiquitous in computer science for function call management, expression evaluation, and undo mechanisms. 
+
+**Key stack operations** follow strict LIFO discipline:
+- `push`: Adds an element to the top
+- `pop`: Removes and returns the top element
+- `peek`: Returns the top element without removal
+
+A stack can be implemented using either arrays or linked lists:
+
+```c
+#define MAX_SIZE 100
+
+typedef struct {
+    int data[MAX_SIZE];     // Fixed-size array storage
+    int top;                // Index of top element (-1 when empty)
+} ArrayStack;
+
+typedef struct s_stack {
+    void *content;          // Data element
+    struct s_stack *next;   // Next node in stack
+} LinkedStack;
+```
+
+### Queues (FIFO)
+Queues implement First-In-First-Out behavior, making them ideal for task scheduling, buffering, and breadth first search algorithms. 
+
+**Key queue operations** maintain FIFO ordering:
+- `enqueue`: Adds to the rear
+- `dequeue`: Removes from the front
+- `peek`: Examines the front element
+
+Like stacks, queues admit both array and linked implementations:
+
+```c
+typedef struct {
+    int front, rear, size; 
+    unsigned capacity;
+    int *array;
+} ArrayQueue;
+
+typedef struct s_queue {
+    void *content;
+    struct s_queue *next;
+} LinkedQueue;
+
+typedef struct {
+    LinkedQueue *front;
+    LinkedQueue *rear;
+} QueueHead;
+```
+
+### Hash Maps
+Hash maps provide key-value storage with average O(1) access time through hash function computation. 
+
+**Proper hash map implementation requires consideration of:**
+- Hash function `quality and distribution`
+- `Collision resolution strategy` (chaining shown here)
+- `Load factor management` and `dynamic resizing`
+- A basic `chaining implementation` uses an array of linked lists:
+
+```c
+typedef struct s_hashnode {
+    char *key;
+    void *value;
+    struct s_hashnode *next;
+} HashNode;
+
+typedef struct {
+    HashNode **buckets;
+    size_t size;
+    size_t capacity;
+} HashMap;
+```
+
+Binary Trees
+Binary trees are hierarchical structures where each node has at most two children (left and right). 
+
+**Tree variants specialize for different needs:**
+- `Binary Search Trees`: Maintain ordering invariants
+- `AVL/Red-Black Trees`: Self-balancing variants
+- `Heaps`: Priority queue implementations
+
+They enable efficient searching (O(log n) in balanced trees) and form the basis for more advanced structures:
+
+```c
+typedef struct s_btree {
+    void *item;
+    struct s_btree *left;
+    struct s_btree *right;
+} t_btree;
+```
+
+
 
 <br>
 
