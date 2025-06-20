@@ -19,7 +19,7 @@ Although this isn't a tutorial, I've written this `README` specifically with **l
 - [Structs](#-structs)
 - [File Descriptors](#-file-descriptors)
 - [Header Files](#-header-files)
-- [Makefile](#-makefile)
+- [Makefile](#️-makefile)
   - [Structure](#-structure)
   - [Components](#-components)
 - [Additional Resources](#-additional-resources)
@@ -511,7 +511,7 @@ printf("gpa @ %p\n", &s.gpa);    // Typically 56 bytes higher
 
 **Memory Visualization:**<br>
 ┌───────────────────┬──┬───────┬───────┐<br>
- │               name (50 bytes)                              │    P   │            age          │            gpa          │<br>
+ │                name (50 bytes)                              │    P   │            age          │            gpa          │<br>
 └───────────────────┴──┴───────┴───────┘
 
 This layout ensures optimal memory access at the cost of some wasted space in padding. The exact offsets may vary between compilers 
@@ -713,6 +713,93 @@ Permissions are often combined with bitwise OR (`|`) to set multiple permissions
 
 ---
 # 📚 Header Files
+
+A header file in C is a file with a `.h` extension that contains C declarations and macro definitions to be shared between multiple 
+source files. Rather than duplicating common declarations (e.g., function prototypes, macros, structs, constants) across `.c` files, 
+these can be placed in a `.h` file and included using the `#include` directive. This promotes modularity, code reuse, and maintainability.
+
+Header files act as interfaces between different parts of a C program. They expose declarations to other files while keeping 
+implementation details encapsulated in the corresponding .c files. This separation of interface and implementation is a fundamental 
+design pattern in C programming.
+
+Think of a header file like a "table of contents" or contract for a .c file: it tells other parts of the program what functions, 
+constants, and types are available without revealing how they are implemented.
+
+## 🧩 Why Header Files Are Important
+`Encapsulation`- Header files separate what a module does (the declarations) from how it does it (the implementation in the .c file). 
+This makes it easier to reason about and maintain large codebases.
+
+`Avoiding Redundancy`- Instead of duplicating function prototypes or struct definitions across multiple source files, placing them in a single header 
+file and using #include ensures consistency and reduces errors.
+
+`Code Sharing Across Files`- Shared interfaces (e.g., math operations, utility functions, data structures) can be declared once and reused in many files.
+
+`Compiler Support` - The compiler needs to know about functions and data types before they are used. Header files provide this information at 
+compile-time via inclusion.
+
+## 📥 Including Header Files
+
+```c
+#include <stdio.h>    // System header
+#include "utils.h"    // User-defined header
+```
+
+> 🔍 Note: 
+> System headers (like <stdio.h>) are part of the standard library, while user headers (like "utils.h") are custom and project-specific.
+
+## 🛠️ Common Standard Header Files in C
+
+These headers are included by default in standard C environments and are critical when working with low-level system calls, 
+memory management, file I/O, and debugging.
+
+| Header         | Purpose / Contents                                                       |
+| -------------- | ------------------------------------------------------------------------ |
+| `<stdio.h>`    | Standard Input/Output: `printf`, `scanf`, `fgets`, `FILE*`               |
+| `<stdlib.h>`   | General utilities: `malloc`, `free`, `exit`, `atoi`, `rand`              |
+| `<string.h>`   | String operations: `strlen`, `strcpy`, `strcmp`, `memset`                |
+| `<math.h>`     | Mathematical functions: `sin`, `sqrt`, `pow`, `log`                      |
+| `<ctype.h>`    | Character classification: `isalpha`, `isdigit`, `toupper`, `tolower`     |
+| `<unistd.h>`   | POSIX OS API: `read`, `write`, `fork`, `exec`, `sleep`, `getpid`         |
+| `<fcntl.h>`    | File control options: file access flags for `open()` and `fcntl()`       |
+| `<sys/stat.h>` | File information: file permission constants and `stat()` function        |
+| `<time.h>`     | Time manipulation: `time`, `difftime`, `strftime`, `clock`               |
+| `<errno.h>`    | Error reporting: `errno`, predefined error codes like `EACCES`, `ENOENT` |
+| `<assert.h>`   | Debugging: `assert()` macro for testing assumptions                      |
+
+
+## 🧑‍💻 Writing Custom Header Files
+
+When creating your own C modules, you should provide a corresponding header file that contains only the declarations 
+of the functions, types, and macros the module provides.
+
+Every header file should be protected with header guards to prevent multiple inclusions, which can cause duplicate definition errors 
+during compilation. This is done using preprocessor directives:
+
+```c
+#ifndef HEADER_NAME
+#define HEADER_NAME
+
+// contents of header file
+
+#endif
+```
+
+This ensures that even if a file is included multiple times in different parts of the project, its contents will be processed only once.
+The header file alone doesn't generate any code. It's the corresponding .c file that defines the function bodies. During compilation:
+- The preprocessor includes the .h file's contents where the #include appears.
+- The compiler compiles .c files to .o (object) files.
+- The linker links all .o files together using the declarations provided in the headers as references.
+If the linker can't find the definitions (i.e., the .c file isn't compiled or linked), it will throw an undefined reference error.
+
+| Guideline                               | Description                                                                 |
+| --------------------------------------- | --------------------------------------------------------------------------- |
+| One `.h` per `.c`                       | Each source file should have a corresponding header to declare its API      |
+| Don’t include `.c` files                | Only include `.h` files to maintain proper separation and build order       |
+| Keep headers clean                      | Avoid including unnecessary headers to reduce compile time and dependencies |
+| Avoid function definitions in `.h`      | Only use declarations; function *definitions* should stay in `.c` files     |
+| Use forward declarations where possible | Declare structs and functions without including full headers unnecessarily  |
+| Use header guards                       | Always protect against multiple inclusion with `#ifndef` or `#pragma once`  |
+
 
 <br>
 
