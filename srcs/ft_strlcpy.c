@@ -6,9 +6,37 @@
 /*   By: mohrahma <mohrahma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 12:11:08 by mohrahma          #+#    #+#             */
-/*   Updated: 2025/06/18 21:11:37 by mohrahma         ###   ########.fr       */
+/*   Updated: 2025/06/20 20:44:43 by mohrahma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * @brief
+ * Copies up to `dstsize - 1` characters from `src` to `dst`, null-terminating the result.
+ * 
+ * @headerfile <string.h>
+ *
+ * @param dst
+ * The destination buffer where the string is copied.
+ *
+ * @param src
+ * The source null-terminated string to copy.
+ *
+ * @param dstsize
+ * The size of the destination buffer including space for the null terminator.
+ *
+ * @return size_t
+ * The total length of `src`, which allows detection of truncation.
+ *
+ * @note behavior
+ * If `dstsize` is 0, no characters are copied but the length of `src` is still returned.
+ *
+ * @details
+ * 1. Measure the length of `src`.
+ * 2. If `dstsize` is non-zero, copy up to `dstsize - 1` characters into `dst`.
+ * 3. Null-terminate `dst` if space permits.
+ * 4. Return the full length of `src` regardless of copied length.
+ */
 
 #include "libft.h"
 

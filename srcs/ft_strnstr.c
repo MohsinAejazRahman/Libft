@@ -6,9 +6,37 @@
 /*   By: mohrahma <mohrahma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 12:23:27 by mohrahma          #+#    #+#             */
-/*   Updated: 2025/06/18 21:16:23 by mohrahma         ###   ########.fr       */
+/*   Updated: 2025/06/20 20:45:17 by mohrahma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * @brief
+ * Searches for the first occurrence of substring `s2` in `s1`, limited to the first `n` characters.
+ * 
+ * @headerfile <string.h>
+ *
+ * @param s1
+ * The null-terminated string to search within.
+ *
+ * @param s2
+ * The null-terminated substring to find.
+ *
+ * @param n
+ * The maximum number of characters to examine in `s1`.
+ *
+ * @return char*
+ * A pointer to the start of the located substring, or `NULL` if not found.
+ *
+ * @note behavior
+ * If `s2` is an empty string, `s1` is returned. If not found within `n`, returns `NULL`.
+ *
+ * @details
+ * 1. Check if `s2` is empty; return `s1` immediately if true.
+ * 2. Loop through `s1` within the bounds of `n`.
+ * 3. Check for a match by comparing characters from `s1` and `s2`.
+ * 4. Return pointer if found, or `NULL` if exhausted.
+ */
 
 #include "libft.h"
 

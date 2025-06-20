@@ -10,6 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @brief
+ * Extracts a substring from string `s` starting at index `start`, up to `len` characters.
+ * 
+ * @headerfile <string.h>
+ *
+ * @param s
+ * The input null-terminated string to extract from.
+ *
+ * @param start
+ * The starting index of the substring.
+ *
+ * @param len
+ * The maximum number of characters to extract.
+ *
+ * @return char*
+ * A newly allocated substring, or an empty string if `start` is beyond the end of `s`.
+ *
+ * @note behavior
+ * If allocation fails, `NULL` is returned. The result must be freed manually.
+ *
+ * @details
+ * 1. Check if `start` is beyond the end of `s`; return empty string if so.
+ * 2. Adjust `len` if it exceeds the remaining length.
+ * 3. Allocate space and copy characters from `s + start` to the result.
+ * 4. Null-terminate and return the substring.
+ */
+
 #include "libft.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)

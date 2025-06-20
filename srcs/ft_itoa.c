@@ -10,6 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @brief
+ * Converts an integer to its null-terminated string representation in decimal (base 10).
+ * Allocates memory dynamically to hold the resulting string. Uses helper functions
+ * like `ft_mem_calc` to determine string length and `ft_strdup` for edge cases.
+ * 
+ * @headerfile "libft.h"
+ *
+ * @param n
+ * The integer value to convert. Supports the full range of 32-bit signed integers.
+ *
+ * @return char*
+ * A pointer to the newly allocated string representing the integer.
+ * Returns `NULL` if memory allocation fails.
+ *
+ * @note behavior
+ * Handles the minimum integer value `-2147483648` explicitly by returning a duplicated constant string.
+ * Negative numbers are represented with a leading `'-'`. Positive numbers and zero are represented without a sign.
+ *
+ * @details
+ * 1. Check for the minimum integer edge case and return a duplicated string literal if matched.
+ * 2. Use `ft_mem_calc` to calculate the required memory size, including sign if negative.
+ * 3. Allocate memory for the string plus the null terminator.
+ * 4. Convert the integer to a string from the end towards the start by repeatedly taking the remainder modulo 10.
+ * 5. Prepend the negative sign if necessary.
+ * 6. Return the allocated string.
+ */
+
 #include "libft.h"
 
 static int	ft_mem_calc(int n)
