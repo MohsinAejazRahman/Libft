@@ -1,14 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mohrahma <mohrahma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 00:41:09 by mohrahma          #+#    #+#             */
-/*   Updated: 2024/03/18 14:50:51 by mohrahma         ###   ########.fr       */
+/*   Updated: 2025/06/20 20:55:22 by mohrahma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * @brief
+ * Allocates and returns a new element with `content`. The `next` pointer is set to NULL.
+ * 
+ * @headerfile Custom Function
+ *
+ * @param content
+ * The content to store in the new element.
+ *
+ * @return t_list*
+ * Returns a pointer to the newly allocated element or `NULL` if allocation fails.
+ *
+ * @note behavior
+ * Allocates memory for the new element and initializes its members.
+ *
+ * @details
+ * 1. Allocates memory for a `t_list` struct.
+ * 2. Sets `content` to the passed argument.
+ * 3. Sets `next` to `NULL`.
+ * 4. Returns the new element or `NULL` if memory allocation failed.
+ */
 
 #include "libft.h"
 

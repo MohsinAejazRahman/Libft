@@ -6,9 +6,36 @@
 /*   By: mohrahma <mohrahma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 12:01:06 by mohrahma          #+#    #+#             */
-/*   Updated: 2025/06/18 21:15:02 by mohrahma         ###   ########.fr       */
+/*   Updated: 2025/06/20 20:44:37 by mohrahma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * @brief
+ * Compares up to `n` characters of two strings `s1` and `s2`.
+ * 
+ * @headerfile <string.h>
+ *
+ * @param s1
+ * The first null-terminated string to compare.
+ *
+ * @param s2
+ * The second null-terminated string to compare.
+ *
+ * @param n
+ * The maximum number of characters to compare.
+ *
+ * @return int
+ * The difference between the first differing characters as unsigned char values, or `0` if equal up to `n`.
+ *
+ * @note behavior
+ * If either pointer is `NULL`, the behavior is undefined.
+ *
+ * @details
+ * 1. Iterate through both strings while `n` is not exhausted.
+ * 2. Stop when characters differ or either string ends.
+ * 3. Return the difference or 0 if all characters matched.
+ */
 
 #include "libft.h"
 

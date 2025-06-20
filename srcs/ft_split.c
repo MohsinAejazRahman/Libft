@@ -6,9 +6,43 @@
 /*   By: mohrahma <mohrahma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:42:01 by mohrahma          #+#    #+#             */
-/*   Updated: 2025/06/18 21:30:06 by mohrahma         ###   ########.fr       */
+/*   Updated: 2025/06/20 20:50:08 by mohrahma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * @brief
+ * Splits a string into an array of substrings using a specified delimiter character.
+ *
+ * @headerfile <stdlib.h>
+ *
+ * @param s
+ * A null-terminated C string to be split. It must be a valid memory region.
+ * The string is parsed sequentially and split at each occurrence of the delimiter `c`.
+ *
+ * @param c
+ * A character delimiter that defines where to split the input string.
+ * Consecutive delimiters are treated as a single separator.
+ *
+ * @return char**
+ * A null-terminated array of strings (char pointers), where each string is a segment of the original string `s`.
+ * Returns NULL if memory allocation fails or if `s` is NULL.
+ *
+ * @note behavior
+ * Mimics a standard string split function:
+ * - Skips leading and consecutive delimiters.
+ * - Allocates memory for each word and for the array of pointers.
+ * - Frees previously allocated memory if a malloc fails during processing.
+ * - The returned array must be freed using `free()` on each string and then on the array itself.
+ *
+ * @details
+ * 1. Uses a helper function to count the number of substrings (words) separated by `c`.
+ * 2. Allocates memory for a pointer array of size (word count + 1), with the last element set to NULL.
+ * 3. Iterates through `s`, identifying word boundaries based on the delimiter `c`.
+ * 4. For each word, calculates its length, allocates space using `malloc()`, and copies the substring using `ft_strlcpy()`.
+ * 5. If memory allocation fails at any point, a cleanup function frees all previously allocated memory and returns NULL.
+ * 6. Returns the populated null-terminated array of substrings.
+ */
 
 #include "libft.h"
 

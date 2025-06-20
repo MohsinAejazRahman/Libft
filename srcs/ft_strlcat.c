@@ -6,9 +6,37 @@
 /*   By: mohrahma <mohrahma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 19:03:32 by mohrahma          #+#    #+#             */
-/*   Updated: 2025/06/18 21:10:13 by mohrahma         ###   ########.fr       */
+/*   Updated: 2025/06/20 20:44:45 by mohrahma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * @brief
+ * Appends `src` to `dst`, ensuring the result fits within `dstsize` and is null-terminated.
+ * 
+ * @headerfile <string.h>
+ *
+ * @param dst
+ * The destination buffer. Must be null-terminated if not empty.
+ *
+ * @param src
+ * The source null-terminated string to append.
+ *
+ * @param dstsize
+ * The total size of the destination buffer.
+ *
+ * @return size_t
+ * The total length the resulting string would have had if there was enough space.
+ *
+ * @note behavior
+ * The return value allows detection of truncation. No null-termination occurs if `dstsize` is 0.
+ *
+ * @details
+ * 1. Measure the length of `dst` and ensure it does not exceed `dstsize`.
+ * 2. Append characters from `src` to `dst` until space runs out.
+ * 3. Null-terminate `dst` if there is room.
+ * 4. Return the intended total length.
+ */
 
 #include "libft.h"
 
