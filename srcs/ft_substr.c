@@ -14,7 +14,7 @@
  * @brief
  * Extracts a substring from string `s` starting at index `start`, up to `len` characters.
  * 
- * @headerfile <string.h>
+ * @headerfile Custom Function
  *
  * @param s
  * The input null-terminated string to extract from.

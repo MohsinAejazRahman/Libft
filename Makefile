@@ -1,3 +1,26 @@
+# ============================================================================ #
+#                            MAKEFILE DOCUMENTATION                            #
+# ============================================================================ #
+# Build system for libft, a custom C library containing reimplementations of
+# standard library functions and additional utilities.
+
+
+# ============================================================================ #
+#                                   VARIABLES                                  #
+# ============================================================================ #
+# NAME - Output library name following Unix convention for static libraries (.a extension)
+# CC -Compiler command (cc is typically aliased to the system's default C compiler)
+# CFLAGS - Compiler flags enforcing strict compilation:
+# 	- Wall: Enable all standard warnings
+# 	- Wextra: Enable extra warnings
+# 	- Werror: Treat warnings as errors
+# SRC_DIR - Directory containing source files
+# OBJ_DIR - Directory for object files (separate from sources for cleaner organization)
+# SRCS - Core library source files (standard functions)
+# BONUS_SRCS - Bonus source files (linked list functions)
+# OBJS - Object files derived from SRCS with OBJ_DIR prefix
+# BONUS_OBJS - Bonus object files derived from BONUS_SRCS with OBJ_DIR prefix
+
 NAME = libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -17,6 +40,28 @@ BONUS_SRCS = ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstadd_front_bonus.c f
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 BONUS_OBJS = $(addprefix $(OBJ_DIR)/, $(BONUS_SRCS:.c=.o))
 
+# ============================================================================ #
+#                               BUILD TARGETS                                  #
+# ============================================================================ #
+# [TARGET] all - Default target (builds the core library)
+# [TARGET] $(OBJ_DIR) - Creates the object directory if it doesn't exist
+# [RULE] %.o -Compilation rule for .c to .o files:
+# 	- Compiles with strict flags
+# 	- Places objects in OBJ_DIR
+# [TARGET] $(NAME) - Builds the static library using ar (archive tool):
+# 	- r: Replace existing files in archive
+# 	- c: Create archive if it doesn't exist
+# 	- s: Write an object-file index (equivalent to ranlib)
+# 	Rationale for static library (.a):
+# 		- Standard format for distributing reusable C functions
+# 		- Can be linked against multiple programs
+# 		- Faster execution than dynamic linking for small libraries
+# [TARGET] bonus - Builds both core and bonus components into the library
+# [TARGET] clean - Removes all object files (keeps library)
+# [TARGET] fclean - Full clean (removes objects and library)
+# [TARGET] re - Rebuilds everything from scratch
+# [PHONY TARGET] PHONY - Declares targets that aren't actual files
+
 all: $(NAME)
 
 $(OBJ_DIR):
@@ -25,8 +70,10 @@ $(OBJ_DIR):
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+
 $(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS)
+
 
 bonus: $(OBJS) $(BONUS_OBJS)
 	@ar rcs $(NAME) $(BONUS_OBJS)

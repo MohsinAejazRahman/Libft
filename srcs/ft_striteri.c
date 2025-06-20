@@ -6,7 +6,7 @@
 /*   By: mohrahma <mohrahma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:34:39 by mohrahma          #+#    #+#             */
-/*   Updated: 2025/06/20 20:44:49 by mohrahma         ###   ########.fr       */
+/*   Updated: 2025/06/20 22:34:42 by mohrahma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
  * @brief
  * Applies function `f` to each character of the string `s`, passing its index and address.
  * 
- * @headerfile <string.h>
+ * @headerfile Custom Function
  *
  * @param s
  * A mutable null-terminated string to be iterated over.

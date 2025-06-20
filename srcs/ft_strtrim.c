@@ -15,7 +15,7 @@
  * Allocates and returns a copy of the string `s1`, trimmed of any characters
  * that appear in the string `set` from both the beginning and the end.
  * 
- * @headerfile <stdlib.h>
+ * @headerfile Custom Function
  *
  * @param s1
  * A null-terminated C string to be trimmed. It may contain leading and trailing

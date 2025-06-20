@@ -6,7 +6,7 @@
 /*   By: mohrahma <mohrahma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:42:01 by mohrahma          #+#    #+#             */
-/*   Updated: 2025/06/20 20:50:08 by mohrahma         ###   ########.fr       */
+/*   Updated: 2025/06/20 22:34:59 by mohrahma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
  * @brief
  * Splits a string into an array of substrings using a specified delimiter character.
  *
- * @headerfile <stdlib.h>
+ * @headerfile Custom Function
  *
  * @param s
  * A null-terminated C string to be split. It must be a valid memory region.

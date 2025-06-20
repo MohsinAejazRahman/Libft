@@ -16,7 +16,7 @@
  * Allocates memory dynamically to hold the resulting string. Uses helper functions
  * like `ft_mem_calc` to determine string length and `ft_strdup` for edge cases.
  * 
- * @headerfile "libft.h"
+ * @headerfile Custom Function
  *
  * @param n
  * The integer value to convert. Supports the full range of 32-bit signed integers.

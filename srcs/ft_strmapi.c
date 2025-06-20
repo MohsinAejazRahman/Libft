@@ -6,7 +6,7 @@
 /*   By: mohrahma <mohrahma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 16:22:50 by mohrahma          #+#    #+#             */
-/*   Updated: 2025/06/20 20:44:39 by mohrahma         ###   ########.fr       */
+/*   Updated: 2025/06/20 22:34:21 by mohrahma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
  * @brief
  * Applies function `f` to each character of `s` to create a new string with the results.
  * 
- * @headerfile <string.h>
+ * @headerfile Custom Function
  *
  * @param s
  * A null-terminated input string.

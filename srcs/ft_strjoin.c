@@ -14,7 +14,7 @@
  * @brief
  * Concatenates two strings into a newly allocated string.
  * 
- * @headerfile <string.h>
+ * @headerfile Custom Function
  *
  * @param s1
  * The first null-terminated string to join.
