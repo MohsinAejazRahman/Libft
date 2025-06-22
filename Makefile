@@ -4,63 +4,58 @@
 # Build system for libft, a custom C library containing reimplementations of
 # standard library functions and additional utilities.
 
+# ============================================================================ #
+#                                   COLORS                                     #
+# ============================================================================ #
+GREEN := \033[32;1m
+RESET := \033[0m
+ORANGE := \033[38;5;214m
 
 # ============================================================================ #
 #                                   VARIABLES                                  #
 # ============================================================================ #
 # NAME - Output library name following Unix convention for static libraries (.a extension)
-# CC -Compiler command (cc is typically aliased to the system's default C compiler)
+# CC - Compiler command (cc is typically aliased to the system's default C compiler)
 # CFLAGS - Compiler flags enforcing strict compilation:
-# 	- Wall: Enable all standard warnings
-# 	- Wextra: Enable extra warnings
-# 	- Werror: Treat warnings as errors
-# SRC_DIR - Directory containing source files
+#   - Wall: Enable all standard warnings
+#   - Wextra: Enable extra warnings
+#   - Werror: Treat warnings as errors
+# RM - Command to remove files forcefully
+# SRC_DIR - Root directory containing all source files
 # OBJ_DIR - Directory for object files (separate from sources for cleaner organization)
-# SRCS - Core library source files (standard functions)
-# BONUS_SRCS - Bonus source files (linked list functions)
+# SRCS - All core library source files found recursively in SRC_DIR
+# BONUS_SRCS - All bonus source files (linked list functions) found recursively
 # OBJS - Object files derived from SRCS with OBJ_DIR prefix
 # BONUS_OBJS - Bonus object files derived from BONUS_SRCS with OBJ_DIR prefix
 
 NAME = libft.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
+RM = rm -f
 
-SRC_DIR = ./srcs
-OBJ_DIR = ./objs
+SRC_DIR = srcs
+OBJ_DIR = objs
+BONUS_DIR = $(SRC_DIR)/LinkedList
 
-SRCS = ft_bzero.c ft_isascii.c ft_memchr.c ft_memset.c ft_putstr_fd.c ft_striteri.c ft_strlen.c \
-		ft_strrchr.c ft_toupper.c ft_calloc.c ft_isdigit.c ft_memcmp.c ft_putchar_fd.c ft_split.c \
-		ft_strjoin.c ft_strmapi.c ft_strtrim.c ft_isalnum.c ft_isprint.c ft_memcpy.c ft_putendl_fd.c \
-		ft_strchr.c ft_strlcat.c ft_strncmp.c ft_substr.c ft_atoi.c ft_isalpha.c ft_itoa.c ft_memmove.c \
-		ft_putnbr_fd.c ft_strdup.c ft_strlcpy.c ft_strnstr.c ft_tolower.c
+SRCS := $(shell find $(SRC_DIR) -type f -name '*.c' ! -path '$(BONUS_DIR)/*')
+BONUS_SRCS := $(shell find $(BONUS_DIR) -type f -name '*.c')
 
-BONUS_SRCS = ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstadd_front_bonus.c ft_lstnew_bonus.c \
-				ft_lstsize_bonus.c ft_lstdelone_bonus.c ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c 
-
-OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
-BONUS_OBJS = $(addprefix $(OBJ_DIR)/, $(BONUS_SRCS:.c=.o))
+OBJS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
+BONUS_OBJS := $(patsubst $(BONUS_DIR)/%.c, $(OBJ_DIR)/%.o, $(BONUS_SRCS))
 
 # ============================================================================ #
 #                               BUILD TARGETS                                  #
 # ============================================================================ #
-# [TARGET] all - Default target (builds the core library)
-# [TARGET] $(OBJ_DIR) - Creates the object directory if it doesn't exist
-# [RULE] %.o -Compilation rule for .c to .o files:
-# 	- Compiles with strict flags
-# 	- Places objects in OBJ_DIR
-# [TARGET] $(NAME) - Builds the static library using ar (archive tool):
-# 	- r: Replace existing files in archive
-# 	- c: Create archive if it doesn't exist
-# 	- s: Write an object-file index (equivalent to ranlib)
-# 	Rationale for static library (.a):
-# 		- Standard format for distributing reusable C functions
-# 		- Can be linked against multiple programs
-# 		- Faster execution than dynamic linking for small libraries
-# [TARGET] bonus - Builds both core and bonus components into the library
-# [TARGET] clean - Removes all object files (keeps library)
-# [TARGET] fclean - Full clean (removes objects and library)
-# [TARGET] re - Rebuilds everything from scratch
-# [PHONY TARGET] PHONY - Declares targets that aren't actual files
+# all - Default target (builds the core library)
+# $(OBJ_DIR) - Creates the object directory structure
+# $(NAME) - Builds the static library using ar (archive tool):
+#   - r: Replace existing files in archive
+#   - c: Create archive if it doesn't exist
+#   - s: Write an object-file index (equivalent to ranlib)
+# bonus - Builds both core and bonus components into the library
+# clean - Removes all object files (keeps library)
+# fclean - Full clean (removes objects and library)
+# re - Rebuilds everything from scratch
 
 all: $(NAME)
 
@@ -68,21 +63,30 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) -c $< -o $@
+	@printf "$(GREEN)Compiling: $(RESET)$(notdir $<)...\n"
 
+$(OBJ_DIR)/%.o: $(BONUS_DIR)/%.c | $(OBJ_DIR)
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@printf "$(ORANGE)Compiling bonus: $(RESET)$(notdir $<)...\n"
 
 $(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS)
-
+	@printf "$(GREEN)Library $(NAME) created$(RESET)\n"
 
 bonus: $(OBJS) $(BONUS_OBJS)
 	@ar rcs $(NAME) $(BONUS_OBJS)
+	@printf "$(ORANGE)Bonus functions added to $(NAME)$(RESET)\n"
 
 clean:
-	@rm -rf $(OBJ_DIR)
+	@$(RM) -r $(OBJ_DIR)
+	@printf "$(ORANGE)Object files removed$(RESET)\n"
 
 fclean: clean
-	@rm -f $(NAME)
+	@$(RM) $(NAME)
+	@printf "$(ORANGE)Library $(NAME) removed$(RESET)\n"
 
 re: fclean all
 

@@ -30,67 +30,59 @@ Although this isn't a tutorial, I've written this `README` specifically with **l
     📁 libft/
     ├── Makefile
     ├── README.md
-    └── srcs/
-        │   Character checks:
-        ├── ft_isalpha.c        (ctype.h)       - Character classification
-        ├── ft_isdigit.c        (ctype.h)       - Character classification
-        ├── ft_isalnum.c        (ctype.h)       - Character classification
-        ├── ft_isascii.c        (ctype.h)       - Character classification
-        ├── ft_isprint.c        (ctype.h)       - Character classification
-        │
-        │   String functions:
-        ├── ft_strlen.c         (string.h)      - String length calculation
-        ├── ft_strdup.c         (string.h)      - String duplication
-        ├── ft_strchr.c         (string.h)      - Locate character in string
-        ├── ft_strrchr.c        (string.h)      - Locate last occurrence of character
-        ├── ft_strncmp.c        (string.h)      - Compare strings up to n characters
-        ├── ft_strnstr.c        (string.h)      - Locate substring in string (bounded)
-        ├── ft_strlcpy.c        (string.h)      - Copy string with size limit
-        ├── ft_strlcat.c        (string.h)      - Concatenate string with size limit
-        ├── ft_strjoin.c        (custom)        - Join two strings
-        ├── ft_strtrim.c        (custom)        - Trim characters from string ends
-        ├── ft_substr.c         (custom)        - Extract substring
-        ├── ft_strmapi.c        (custom)        - Map function to string chars
-        ├── ft_striteri.c       (custom)        - Iterate function over string chars
-        │
-        │   Memory functions:
-        ├── ft_bzero.c          (strings.h)     - Zero memory block
-        ├── ft_memset.c         (string.h)      - Fill memory with constant byte
-        ├── ft_memcpy.c         (string.h)      - Copy memory area
-        ├── ft_memmove.c        (string.h)      - Copy memory area safely (overlapping)
-        ├── ft_memchr.c         (string.h)      - Locate byte in memory
-        ├── ft_memcmp.c         (string.h)      - Compare memory areas
-        │
-        │   Conversion & allocation:
-        ├── ft_atoi.c           (stdlib.h)      - Convert string to integer
-        ├── ft_itoa.c           (custom)        - Convert integer to string
-        ├── ft_calloc.c         (stdlib.h)      - Allocate and zero-initialize memory
-        │
-        │   Output functions:
-        ├── ft_putchar_fd.c     (unistd.h)      - Write char to file descriptor
-        ├── ft_putstr_fd.c      (unistd.h)      - Write string to file descriptor
-        ├── ft_putendl_fd.c     (unistd.h)      - Write string with newline
-        ├── ft_putnbr_fd.c      (unistd.h)      - Write number to file descriptor
-        │
-        │   Character case:
-        ├── ft_tolower.c        (ctype.h)       - Convert character to lowercase
-        ├── ft_toupper.c        (ctype.h)       - Convert character to uppercase
-        │
-        │   String splitting:
-        ├── ft_split.c          (custom)        - Split string into array by delimiter
-        │
-        │   linked list:
-        ├── ft_lstnew_bonus.c       (custom)    - Create new linked list element
-        ├── ft_lstadd_front_bonus.c (custom)    - Add element at list start
-        ├── ft_lstadd_back_bonus.c  (custom)    - Add element at list end
-        ├── ft_lstdelone_bonus.c    (custom)    - Delete one element
-        ├── ft_lstclear_bonus.c     (custom)    - Clear entire list
-        ├── ft_lstiter_bonus.c      (custom)    - Iterate function over list
-        ├── ft_lstmap_bonus.c       (custom)    - Map function to list elements
-        ├── ft_lstlast_bonus.c      (custom)    - Get last element of list
-        ├── ft_lstsize_bonus.c      (custom)    - Get size of list
-        │
-        └── libft.h                  (custom)        - Header file with prototypes and macros
+    └── srcs
+        ├── Allocation
+        │   └── ft_calloc.c         (stdlib.h)      - Allocate and zero-initialize memory
+        ├── CharacterCase
+        │   ├── ft_tolower.c        (ctype.h)       - Convert character to lowercase
+        │   └── ft_toupper.c        (ctype.h)       - Convert character to uppercase
+        ├── CharacterChecks
+        │   ├── ft_isalnum.c        (ctype.h)       - Check if character is alphanumeric
+        │   ├── ft_isalpha.c        (ctype.h)       - Check if character is alphabetic
+        │   ├── ft_isascii.c        (ctype.h)       - Check if character is ASCII
+        │   ├── ft_isdigit.c        (ctype.h)       - Check if character is a digit
+        │   └── ft_isprint.c        (ctype.h)       - Check if character is printable
+        ├── Conversions
+        │   ├── ft_atoi.c           (stdlib.h)      - Convert string to integer
+        │   └── ft_itoa.c           (custom)        - Convert integer to string
+        ├── FDFunctions
+        │   ├── ft_putchar_fd.c     (unistd.h)      - Write a character to file descriptor
+        │   ├── ft_putendl_fd.c     (unistd.h)      - Write string with newline to fd
+        │   ├── ft_putnbr_fd.c      (unistd.h)      - Write number to file descriptor
+        │   └── ft_putstr_fd.c      (unistd.h)      - Write string to file descriptor
+        ├── LinkedList
+        │   ├── ft_lstadd_back_bonus.c  (custom)    - Add element at the end of list
+        │   ├── ft_lstadd_front_bonus.c (custom)    - Add element at the start of list
+        │   ├── ft_lstclear_bonus.c     (custom)    - Clear entire linked list
+        │   ├── ft_lstdelone_bonus.c    (custom)    - Delete single list element
+        │   ├── ft_lstiter_bonus.c      (custom)    - Iterate function over list elements
+        │   ├── ft_lstlast_bonus.c      (custom)    - Get last element of list
+        │   ├── ft_lstmap_bonus.c       (custom)    - Map function to list elements
+        │   ├── ft_lstnew_bonus.c       (custom)    - Create new linked list element
+        │   └── ft_lstsize_bonus.c      (custom)    - Get number of elements in list
+        ├── MemoryFunctions
+        │   ├── ft_bzero.c          (strings.h)     - Zero out a memory block
+        │   ├── ft_memchr.c         (string.h)      - Locate byte in memory block
+        │   ├── ft_memcmp.c         (string.h)      - Compare two memory areas
+        │   ├── ft_memcpy.c         (string.h)      - Copy memory area
+        │   ├── ft_memmove.c        (string.h)      - Copy memory safely (overlap-safe)
+        │   └── ft_memset.c         (string.h)      - Fill memory with constant byte
+        ├── StringFunctions
+        │   ├── ft_split.c          (custom)        - Split string into array by delimiter
+        │   ├── ft_strchr.c         (string.h)      - Locate first occurrence of char in string
+        │   ├── ft_strdup.c         (string.h)      - Duplicate a string (malloc)
+        │   ├── ft_striteri.c       (custom)        - Iterate with index on string chars
+        │   ├── ft_strjoin.c        (custom)        - Join two strings into new malloc’d string
+        │   ├── ft_strlcat.c        (string.h)      - Concatenate string with size limit
+        │   ├── ft_strlcpy.c        (string.h)      - Copy string with size limit
+        │   ├── ft_strlen.c         (string.h)      - Calculate string length
+        │   ├── ft_strmapi.c        (custom)        - Map function to string chars with index
+        │   ├── ft_strncmp.c        (string.h)      - Compare first n chars of strings
+        │   ├── ft_strnstr.c        (string.h)      - Locate substring in string (bounded)
+        │   ├── ft_strrchr.c        (string.h)      - Locate last occurrence of char
+        │   ├── ft_strtrim.c        (custom)        - Trim characters from start/end of string
+        │   └── ft_substr.c         (custom)        - Extract substring from string
+        └── libft.h                  (custom)        - Header with prototypes and macros
 
 <br>
 
@@ -290,7 +282,7 @@ In C, function parameters follow strict rules:
 local copy and are discarded when the function returns.  
 <br> **Pointer parameters** receive a copy of the memory address. While the pointer copy itself follows these rules, dereferencing 
 it accesses the original memory location. This allows for modifications to the referenced data, but requires explicit management.  
-<br> This means that:<br> 1. Memory modifications through dereferenced pointers are perminent beyond function <br>2. Losing the last 
+<br> This means that:<br> 1. Memory modifications through dereferenced pointers are permanent beyond function <br>2. Losing the last 
 reference to allocated memory creates unrecoverable leaks (security hazzard) <br>3. There is no automatic mechanism to revert 
 pointer-based modifications <br>4. All pointer arithmetic must maintain valid address boundaries  
 
