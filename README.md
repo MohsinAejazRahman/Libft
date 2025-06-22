@@ -11,16 +11,16 @@ Although this isn't a tutorial, I've written this `README` specifically with **l
 ---
 # 📑 Table of Contents
 
-- [Project Structure](#-project-structure)
-- [Integers](#0️⃣-integers)
-- [Floating-Point Numbers](#1️⃣-floating-point-numbers)
-- [Characters](#-characters)
-- [Pointers](#-pointers)
-- [Structs](#-structs)
-- [File Descriptors](#-file-descriptors)
-- [Header Files](#-header-files)
-- [Makefile](#️-makefile)
-- [Additional Resources](#-additional-resources)
+- [🗂 Project Structure](#-project-structure)
+- [0️⃣ Integers](#0️⃣-integers)
+- [1️⃣ Floating-Point Numbers](#1️⃣-floating-point-numbers)
+- [🆎 Characters](#-characters)
+- [🧠 Pointers](#-pointers)
+- [🧱 Structs](#-structs)
+- [📤 File Descriptors](#-file-descriptors)
+- [📚 Header Files](#-header-files)
+- [🛠️ Makefile](#️-makefile)
+- [📚 Additional Resources](#-additional-resources)
 
 <br> 
 
